@@ -49,6 +49,13 @@ RSpec.describe Hanami::Action do
         expect(response.body).to   eq(["Internal Server Error"])
       end
 
+      it "handles string defined exception class" do
+        response = ErrorCallWithStringClassName.new.call({})
+
+        expect(response.status).to eq(500)
+        expect(response.body).to   eq(["Internal Server Error"])
+      end
+
       it "handles inherited exception with specified method" do
         response = ErrorCallFromInheritedErrorClass.new.call({})
 
