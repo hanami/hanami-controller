@@ -116,6 +116,14 @@ class ErrorCallAction < Hanami::Action
   end
 end
 
+class ErrorCallWithStringClassName < Hanami::Action
+  config.handle_exception "RuntimeError" => 500
+
+  def handle(_req, _res)
+    raise
+  end
+end
+
 class MyCustomError < StandardError; end
 
 class ErrorCallFromInheritedErrorClass < Hanami::Action

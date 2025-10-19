@@ -433,7 +433,12 @@ module Hanami
     # @api private
     def exception_handler(exception)
       config.handled_exceptions.each do |exception_class, handler|
-        return handler if exception.is_a?(exception_class)
+        case exception_class
+        when String
+          return handler if exception.class.name == exception_class # rubocop:disable Style/ClassEqualityComparison
+        else
+          return handler if exception.is_a?(exception_class)
+        end
       end
 
       nil
