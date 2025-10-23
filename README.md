@@ -5,9 +5,8 @@ Complete, fast, and testable actions for Rack and [Hanami](http://hanamirb.org)
 ## Status
 
 [![Gem Version](https://badge.fury.io/rb/hanami-controller.svg)](https://badge.fury.io/rb/hanami-controller)
-[![CI](https://github.com/hanami/controller/actions/workflows/ci.yml/badge.svg)](https://github.com/hanami/controller/actions?query=workflow%3Aci+branch%3Amain)
-[![Test Coverage](https://codecov.io/gh/hanami/controller/branch/main/graph/badge.svg)](https://codecov.io/gh/hanami/controller)
-[![Depfu](https://badges.depfu.com/badges/7cd17419fba78b726be1353118fb01de/overview.svg)](https://depfu.com/github/hanami/controller?project=Bundler)
+[![CI](https://github.com/hanami/hanami-controller/actions/workflows/ci.yml/badge.svg)](https://github.com/hanami/hanami-controller/actions?query=workflow%3Aci+branch%3Amain)
+[![Test Coverage](https://codecov.io/gh/hanami/hanami-controller/branch/main/graph/badge.svg)](https://codecov.io/gh/hanami/hanami-controller)
 
 ## Contact
 
@@ -20,8 +19,6 @@ Complete, fast, and testable actions for Rack and [Hanami](http://hanamirb.org)
 
 
 ## Installation
-
-__Hanami::Controller__ supports Ruby (MRI) 3.1+
 
 Add this line to your application's Gemfile:
 
