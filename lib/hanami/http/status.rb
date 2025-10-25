@@ -21,7 +21,10 @@ module Hanami
       #
       # @since 2.0.2
       # @api private
-      SYMBOLS = ::Rack::Utils::SYMBOL_TO_STATUS_CODE
+      SYMBOLS = ::Rack::Utils::SYMBOL_TO_STATUS_CODE.merge(
+        unprocessable_content: 422,
+        unprocessable_entity: 422
+      )
 
       # Return a status for the given code
       #
