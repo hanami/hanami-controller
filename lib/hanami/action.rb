@@ -86,10 +86,10 @@ module Hanami
     #       config.format :json
     #     end
     #
-    #   @return [Config]
+    # @return [Config]
     #
-    #   @api public
-    #   @since 2.0.0
+    # @since 2.0.0
+    # @api public
 
     # @!scope instance
 
@@ -134,7 +134,7 @@ module Hanami
       raise NoMethodError, message
     end
 
-    # @overload self.append_before(*callbacks, &block)
+    # @overload append_before(*callbacks, &block)
     #   Define a callback for an Action.
     #   The callback will be executed **before** the action is called, in the
     #   order they are added.
@@ -149,7 +149,7 @@ module Hanami
     #
     #   @since 0.3.2
     #
-    #   @see Hanami::Action::Callbacks::ClassMethods#append_after
+    #   @see Action#append_after
     #
     #   @example Method names (symbols)
     #     require "hanami/controller"
@@ -202,7 +202,7 @@ module Hanami
       alias_method :before, :append_before
     end
 
-    # @overload self.append_after(*callbacks, &block)
+    # @overload append_after(*callbacks, &block)
     #   Define a callback for an Action.
     #   The callback will be executed **after** the action is called, in the
     #   order they are added.
@@ -217,7 +217,7 @@ module Hanami
     #
     #   @since 0.3.2
     #
-    #   @see Hanami::Action::Callbacks::ClassMethods#append_before
+    # @see Action#append_before
     def self.append_after(...)
       config.after_callbacks.append(...)
     end
@@ -227,7 +227,7 @@ module Hanami
       alias_method :after, :append_after
     end
 
-    # @overload self.prepend_before(*callbacks, &block)
+    # @overload prepend_before(*callbacks, &block)
     #   Define a callback for an Action.
     #   The callback will be executed **before** the action is called.
     #   It will add the callback at the beginning of the callbacks' chain.
@@ -242,12 +242,12 @@ module Hanami
     #
     #   @since 0.3.2
     #
-    #   @see Hanami::Action::Callbacks::ClassMethods#prepend_after
+    # @see Action#prepend_after
     def self.prepend_before(...)
       config.before_callbacks.prepend(...)
     end
 
-    # @overload self.prepend_after(*callbacks, &block)
+    # @overload prepend_after(*callbacks, &block)
     #   Define a callback for an Action.
     #   The callback will be executed **after** the action is called.
     #   It will add the callback at the beginning of the callbacks' chain.
@@ -262,7 +262,7 @@ module Hanami
     #
     #   @since 0.3.2
     #
-    #   @see Hanami::Action::Callbacks::ClassMethods#prepend_before
+    # @see Action#prepend_before
     def self.prepend_after(...)
       config.after_callbacks.prepend(...)
     end
@@ -353,11 +353,14 @@ module Hanami
 
     protected
 
-    # Hook for subclasses to apply behavior as part of action invocation
+    # Hook for subclasses to apply behavior as part of action invocation.
+    #
+    # This is the method you'll implement in your actions.
     #
     # @param request [Hanami::Action::Request]
     # @param response [Hanami::Action::Response]
     #
+    # @abstract
     # @since 2.0.0
     # @api public
     def handle(request, response)
@@ -380,8 +383,8 @@ module Hanami
     #
     # @since 0.2.0
     #
-    # @see Hanami::Action::Throwable#handle_exception
-    # @see Hanami::Http::Status:ALL
+    # @see Hanami::Action.handle_exception
+    # @see https://rubydoc.info/github/rack/rack/Rack/Utils
     #
     # @example Basic usage
     #   require "hanami/controller"
@@ -544,8 +547,6 @@ module Hanami
     # quota via <tt>X-Rate-Limit</tt>.
     #
     # @since 0.5.0
-    #
-    # @see Hanami::Action#_requires_no_body?
     #
     # @example
     #   require "hanami/controller"
