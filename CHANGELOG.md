@@ -2,6 +2,32 @@
 
 Complete, fast and testable actions for Rack
 
+## v2.3.0
+
+### Added
+
+- Fetch CSRF tokens from `X-CSRF-Token` request header, in addition to body params. (@masterT in #422)
+
+### Changed
+
+- Allow `config.handle_exception` to receive an exception class name as a string. (@mathewdbutton in #488)
+
+  This allows you to handle exceptions in your actions without having to require the Ruby files that define the exception constants, which is often awkward if those exceptions come from far-removed layers of your app.
+
+  ```ruby
+  class MyAction < Hanami::Action
+    config.handle_exception "ROM::TupleCountMismatchError" => 404
+  end
+  ```
+- Allow both `:unprocessable_entity` and `:unprocessable_content` and  to be used to refer to the 422 HTTP status code (Rack v3 dropped the former and replaced it with the latter). (@alassek in #490)
+
+  ```ruby
+  def handle(request, response)
+    # Or :unprocessable_content, both work, on all Rack versions
+    response.status = :unprocessable_entity
+  end
+  ```
+
 ## v2.3.0.beta2 - 2025-10-17
 
 ### Added
