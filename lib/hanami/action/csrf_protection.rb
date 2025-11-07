@@ -113,7 +113,6 @@ module Hanami
       # Retreives the CSRF token from the request param <tt>_csrf_token</tt> or the request header
       # <tt>X-CSRF-Token</tt>.
       #
-      # @since 2.X.X
       # @api private
       def request_csrf_token(req)
         req.params.raw[CSRF_TOKEN.to_s] || req.get_header("HTTP_X_CSRF_TOKEN")
