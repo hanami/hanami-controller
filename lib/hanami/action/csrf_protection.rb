@@ -110,7 +110,8 @@ module Hanami
 
       # Get CSRF Token in request.
       #
-      # Retreives the CSRF token from the request param <tt>_csrf_token</tt> or the request header <tt>X-CSRF-Token</tt>.
+      # Retreives the CSRF token from the request param <tt>_csrf_token</tt> or the request header
+      # <tt>X-CSRF-Token</tt>.
       #
       # @since 2.X.X
       # @api private
