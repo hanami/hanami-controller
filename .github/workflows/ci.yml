@@ -43,6 +43,7 @@ jobs:
         env:
           RACK_VERSION_CONSTRAINT: ${{matrix.rack}}
       - name: Run all tests
+        id: test
         run: |
           status=0
           script/ci || status=$?
