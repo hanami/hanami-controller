@@ -373,8 +373,9 @@ module Hanami
     # Otherwise, it sets the response body with the default message associated
     # to the code (eg 404 will set `"Not Found"`).
     #
-    # @param status [Integer, Symbol] a valid HTTP status code
+    # @param status [Integer, Symbol] The status code or a symbol representing the HTTP status code itself
     # @param body [String] the response body
+    # @note A list of status codes and their symbols can be found here: https://hanakai.org/learn/hanami/v2.3/actions/status-codes
     #
     # @raise [StandardError] if the code isn't valid
     #
