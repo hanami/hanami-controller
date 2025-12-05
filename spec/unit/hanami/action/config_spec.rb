@@ -20,6 +20,17 @@ RSpec.describe Hanami::Action::Config do
       config.handle_exception TypeError => 400
       expect(config.handled_exceptions).to eq(ArgumentError => 400, TypeError => 400)
     end
+
+    it "allows specifying multiple exceptions as strings" do
+      config.handled_exceptions = {
+        "ArgumentError" => 400,
+        "TypeError" => 400
+      }
+      expect(config.handled_exceptions).to eq(
+        "ArgumentError" => 400,
+        "TypeError" => 400
+      )
+    end
   end
 
   describe "#format" do
