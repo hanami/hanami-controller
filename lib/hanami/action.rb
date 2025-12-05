@@ -375,11 +375,12 @@ module Hanami
     #
     # @param status [Integer, Symbol] A valid HTTP status code or a symbol representing the HTTP status code
     # @param body [String] the response body
-    # @note A list of status codes and their symbols can be found here: https://hanakai.org/learn/hanami/v2.3/actions/status-codes
     #
     # @raise [StandardError] if the code isn't valid
     #
     # @since 0.2.0
+    #
+    # @see https://hanakai.org/learn/hanami/actions/status-codes List of status codes and symbols
     #
     # @see Hanami::Action::Throwable#handle_exception
     # @see Hanami::Http::Status:ALL
