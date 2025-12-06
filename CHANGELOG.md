@@ -2,6 +2,39 @@
 
 Complete, fast and testable actions for Rack
 
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+[Unreleased]: https://github.com/hanami/hanami-controller/compare/v2.3.1...main
+
+## [2.3.1] - 2025-12-06
+
+### Fixed
+
+- Allow `handle_exception` to receive multiple class names as strings. (@sidane in #495)
+
+  ```ruby
+  class MyAction < Hanami::Action
+    config.handle_exception(
+      "MyException" => 500,
+      "MyOtherException" => 501
+    )
+  end
+  ```
+
+[2.3.1]: https://github.com/hanami/hanami-controller/compare/v2.3.0...v2.3.1
+
 ## v2.3.0 - 2025-11-12
 
 ### Added
