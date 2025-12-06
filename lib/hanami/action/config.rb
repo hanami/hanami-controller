@@ -54,7 +54,11 @@ module Hanami
       def handle_exception(exceptions)
         self.handled_exceptions = handled_exceptions
           .merge(exceptions)
-          .sort { |(ex1, _), (ex2, _)| ex1.ancestors.include?(ex2) ? -1 : 1 }
+          .sort do |(ex1, _), (ex2, _)|
+            next 0 if [ex1, ex2].any?(String)
+
+            ex1.ancestors.include?(ex2) ? -1 : 1
+          end
           .to_h
       end
 
