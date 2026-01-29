@@ -11,5 +11,8 @@ Metrics/AbcSize:
   Exclude:
     - "spec/**/*.rb"
 
+Style/EmptyClassDefinition:
+  Enabled: false
+
 Style/SymbolProc:
   Enabled: false
