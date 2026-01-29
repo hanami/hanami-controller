@@ -67,7 +67,7 @@ module Hanami
 
         # @since 2.0.0
         # @api private
-        private def initialize_copy(original) # rubocop:disable Style/AccessModifierDeclarations
+        private def initialize_copy(original)
           super
           @accepted = original.accepted.dup
           @default = original.default

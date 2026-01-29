@@ -8,7 +8,7 @@ require_relative "errors"
 module Hanami
   class Action
     # @api private
-    module Mime # rubocop:disable Metrics/ModuleLength
+    module Mime
       # Most commom media types used for responses
       #
       # @since 1.0.0
