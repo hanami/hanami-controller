@@ -1,18 +1,4 @@
-# Please keep AllCops, Bundler, Style, Metrics groups and then order cops
-# alphabetically
+# This file is synced from hanakai-rb/repo-sync
+
 inherit_from:
-  - https://raw.githubusercontent.com/hanami/devtools/main/.rubocop.yml
-
-Layout/LineLength:
-  Exclude:
-    - "spec/**/*.rb"
-
-Metrics/AbcSize:
-  Exclude:
-    - "spec/**/*.rb"
-
-Style/EmptyClassDefinition:
-  Enabled: false
-
-Style/SymbolProc:
-  Enabled: false
+  - https://raw.githubusercontent.com/hanakai-rb/repo-sync/main/rubocop/rubocop.yml

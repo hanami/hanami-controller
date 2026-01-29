@@ -502,7 +502,6 @@ end
 class IterateCookiesAction < Hanami::Action
   include Hanami::Action::Cookies
 
-  # rubocop:disable Style/MapIntoArray
   def handle(*, res)
     result = []
     res.cookies.each do |key, value|
@@ -1050,7 +1049,7 @@ module SendFileTest
     end
 
     class Show < Action
-      def handle(req, res)
+      def handle(req, res) # rubocop:disable Metrics/AbcSize
         id = req.params[:id]
 
         # This if statement is only for testing purpose
@@ -1171,7 +1170,7 @@ module SendFileTest
   end
 
   class Application
-    def initialize
+    def initialize # rubocop:disable Metrics/AbcSize
       router = Hanami::Router.new do
         get "/files/flow",                    to: Files::Flow.new
         get "/files/unsafe_local",            to: Files::UnsafeLocal.new
@@ -1440,7 +1439,7 @@ module FullStack
   end
 
   class Application
-    def initialize
+    def initialize # rubocop:disable Metrics/AbcSize
       routes = Hanami::Router.new do
         get "/",     to: FullStack::Controllers::Home::Index.new
         get "/head", to: FullStack::Controllers::Home::Head.new
@@ -1616,7 +1615,11 @@ module Mimes
   end
 
   class CustomFromAccept < Hanami::Action
-    config.formats.register :custom, "application/custom", accept_types: ["application/custom", "application/custom+variant"]
+    config.formats.register(
+      :custom,
+      "application/custom",
+      accept_types: ["application/custom", "application/custom+variant"]
+    )
     config.formats.accept :json, :custom
 
     def handle(*, res)

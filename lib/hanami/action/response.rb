@@ -48,7 +48,7 @@ module Hanami
 
       # @since 2.0.0
       # @api private
-      def initialize(request:, config:, content_type: nil, env: {}, headers: {}, view_options: nil, session_enabled: false) # rubocop:disable Layout/LineLength, Metrics/ParameterLists
+      def initialize(request:, config:, content_type: nil, env: {}, headers: {}, view_options: nil, session_enabled: false) # rubocop:disable Layout/LineLength
         super([], 200, headers.dup)
         self.content_type = content_type if content_type
 

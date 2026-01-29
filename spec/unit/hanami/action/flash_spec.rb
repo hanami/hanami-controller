@@ -61,7 +61,6 @@ RSpec.describe Hanami::Action::Flash do
   describe "#each" do
     let(:input_hash) { {a: "val"} }
 
-    # rubocop:disable Style/MapIntoArray
     it "iterates data" do
       accumulator = []
 
