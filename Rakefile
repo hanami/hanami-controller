@@ -19,9 +19,12 @@ namespace :spec do
   desc "Run isolation tests"
   task :isolation do
     # Run each isolation test in its own Ruby process
+    # Use with_unbundled_env to ensure bundler doesn't load extra gems
     Dir["spec/isolation/**/*_spec.rb"].each do |test_file|
       puts "\n\nRunning: #{test_file}"
-      system("ruby #{test_file} --options spec/isolation/.rspec") || abort("Isolation test failed: #{test_file}")
+      Bundler.with_unbundled_env do
+        system("ruby #{test_file} --options spec/isolation/.rspec") || abort("Isolation test failed: #{test_file}")
+      end
     end
   end
 
