@@ -1,4 +1,4 @@
-
+# frozen_string_literal: true
 
 # This file is synced from hanakai-rb/repo-sync
 

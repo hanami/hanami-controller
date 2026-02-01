@@ -1,22 +1,9 @@
-# Hanami::Controller
+<!--- This file is synced from hanakai-rb/repo-sync -->
 
-Complete, fast, and testable actions for Rack and [Hanami](http://hanamirb.org)
+[rubygem]: https://rubygems.org/gems/hanami-controller
+[actions]: https://github.com/hanami/hanami-controller/actions
 
-## Status
-
-[![Gem Version](https://badge.fury.io/rb/hanami-controller.svg)](https://badge.fury.io/rb/hanami-controller)
-[![CI](https://github.com/hanami/hanami-controller/actions/workflows/ci.yml/badge.svg)](https://github.com/hanami/hanami-controller/actions?query=workflow%3Aci+branch%3Amain)
-[![Test Coverage](https://codecov.io/gh/hanami/hanami-controller/branch/main/graph/badge.svg)](https://codecov.io/gh/hanami/hanami-controller)
-
-## Contact
-
-* Home page: http://hanamirb.org
-* Community: http://hanamirb.org/community
-* Guides: https://guides.hanamirb.org
-* Mailing List: http://hanamirb.org/mailing-list
-* API Doc: http://rubydoc.info/gems/hanami-controller
-* Chat: http://chat.hanamirb.org
-
+# Hanami Controller [![Gem Version](https://badge.fury.io/rb/hanami-controller.svg)][rubygem] [![CI Status](https://github.com/hanami/hanami-controller/workflows/CI/badge.svg)][actions]
 
 ## Installation
 
@@ -936,10 +923,6 @@ end
 
 An Action is **immutable**, it works without global state, so it's thread-safe by design.
 
-## Versioning
-
-__Hanami::Controller__ uses [Semantic Versioning 2.0.0](http://semver.org)
-
 ## Contributing
 
 1. Fork it
@@ -948,6 +931,13 @@ __Hanami::Controller__ uses [Semantic Versioning 2.0.0](http://semver.org)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Copyright
+## Links
 
-Copyright © 2014–2024 Hanami Team – Released under MIT License
+- [User documentation](https://hanamirb.org)
+- [API documentation](http://rubydoc.info/gems/hanami-controller)
+
+
+## License
+
+See `LICENSE` file.
+
