@@ -34,7 +34,7 @@ jobs:
         env:
           RACK_MATRIX_VALUE: ${{matrix.rack}}
       - name: Run all tests
-        run: script/ci
+        run: bundle exec rake
         env:
           RACK_MATRIX_VALUE: ${{matrix.rack}}
 

@@ -6,6 +6,7 @@ Bundler.setup(:default, :development, :test)
 
 $LOAD_PATH.unshift "lib"
 require "hanami/controller"
+require "rspec"
 require_relative "rspec"
 require "hanami/devtools/unit"
 
