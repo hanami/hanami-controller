@@ -18,8 +18,8 @@ end
 namespace :spec do
   desc "Run isolation tests"
   task :isolation do
-    # Run each isolation test in its own Ruby process
-    # Use with_unbundled_env to ensure bundler doesn't load extra gems
+    # Run each isolation test in its own Ruby process, using with_unbundled_env to ensure bundler
+    # doesn't load extra gems.
     Dir["spec/isolation/**/*_spec.rb"].each do |test_file|
       puts "\n\nRunning: #{test_file}"
       Bundler.with_unbundled_env do
@@ -30,7 +30,7 @@ namespace :spec do
 
   desc "Run integration tests"
   task :integration do
-    # Run each integration test with RSpec
+    # TODO: see if these can be run as part of the main suite
     Dir["spec/integration/**/*_spec.rb"].each do |test_file|
       puts "\n\nRunning: #{test_file}"
       system("bundle exec rspec #{test_file}") || abort("Integration test failed: #{test_file}")
@@ -42,8 +42,6 @@ desc "Run all tests"
 task test: ["spec:unit", "spec:isolation", "spec:integration"]
 
 RuboCop::RakeTask.new(:rubocop)
-
-desc "Run linting (alias for rubocop)"
 task lint: :rubocop
 
 task default: [:lint, :test]
