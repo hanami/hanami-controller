@@ -1,0 +1,19 @@
+name:
+  gem: hanami-controller
+  constant: Hanami::Controller
+  title: Hanami Controller
+github_org: hanami
+ci:
+  matrix:
+    rack: ["~> 2.0", "~> 3.0"]
+gemspec:
+  authors: ["Hanakai team"]
+  email: ["info@hanakai.org"]
+  summary: "Complete, fast and testable actions for Rack and Hanami"
+  homepage: "https://hanamirb.org"
+  runtime_dependencies:
+    - ["rack", ">= 2.2.16"]
+    - ["hanami-utils", "~> 2.3.0"]
+    - ["dry-configurable", "~> 1.0", "< 2"]
+    - ["dry-core", "~> 1.0"]
+    - ["zeitwerk", "~> 2.6"]

@@ -25,9 +25,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-configurable", "~> 1.0", "< 2"
   spec.add_dependency "dry-core", "~> 1.0"
   spec.add_dependency "zeitwerk", "~> 2.6"
-
-  spec.add_development_dependency "rack-test", "~> 2.0"
-  spec.add_development_dependency "rake",      "~> 13"
-  spec.add_development_dependency "rspec",     "~> 3.9"
-  spec.add_development_dependency "rubocop",   "~> 1.0"
 end
