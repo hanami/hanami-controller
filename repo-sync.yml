@@ -6,6 +6,7 @@ github_org: hanami
 ci:
   matrix:
     rack: ["~> 2.0", "~> 3.0"]
+  jruby: false
 gemspec:
   authors: ["Hanakai team"]
   email: ["info@hanakai.org"]
