@@ -4,7 +4,6 @@ require "rake"
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
-require "hanami/devtools/rake_tasks"
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:unit) do |task|
@@ -13,9 +12,7 @@ namespace :spec do
 
     task.pattern = file_list
   end
-end
 
-namespace :spec do
   desc "Run isolation tests"
   task :isolation do
     # Run each isolation test in its own Ruby process, using with_unbundled_env to ensure bundler
