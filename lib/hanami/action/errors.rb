@@ -58,6 +58,13 @@ module Hanami
       end
     end
 
+    # Error raised when body parsing fails.
+    #
+    # @api public
+    # @since x.x.x
+    class BodyParsingError < Error
+    end
+
     # Error raised when session is accessed but not enabled.
     #
     # This error is raised when `session` or `flash` is accessed/set on request/response objects

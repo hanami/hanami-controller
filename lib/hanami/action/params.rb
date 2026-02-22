@@ -348,11 +348,19 @@ module Hanami
       def _extract_params
         result = {}
 
-        if env.key?(Action::RACK_INPUT)
-          result.merge! ::Rack::Request.new(env).params
-          result.merge! _router_params
+        if env.key?(RACK_INPUT)
+          # If a body parser has already parsed the body, avoid double-parsing of the body by
+          # grabbing the query params only. Otherwise, let Rack parse both the query and body
+          # params, which covers ordinary application/x-www-form-urlencoded form posts.
+          if env.key?(ACTION_BODY_PARAMS) || env.key?(ROUTER_PARAMS)
+            result.merge! ::Rack::Request.new(env).GET
+          else
+            result.merge! ::Rack::Request.new(env).params
+          end
+
+          result.merge! _parsed_body_params
         else
-          result.merge! _router_params(env)
+          result.merge! _parsed_body_params(env)
           env[Action::REQUEST_METHOD] ||= Action::DEFAULT_REQUEST_METHOD
         end
 
@@ -361,8 +369,8 @@ module Hanami
 
       # @since 0.7.0
       # @api private
-      def _router_params(fallback = {})
-        env.fetch(ROUTER_PARAMS, fallback)
+      def _parsed_body_params(fallback = {})
+        env.fetch(ACTION_BODY_PARAMS) { env.fetch(ROUTER_PARAMS, fallback) }
       end
     end
   end

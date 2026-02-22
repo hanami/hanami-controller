@@ -27,6 +27,14 @@ module Hanami
         # @api public
         attr_reader :accepted
 
+        # The registered body parsers, as a hash mapping content types to callable parsers.
+        #
+        # @return [Hash{String => #call}]
+        #
+        # @since x.x.x
+        # @api public
+        attr_reader :body_parsers
+
         # @see #accepted
         #
         # @since 2.0.0
@@ -63,6 +71,9 @@ module Hanami
           @accepted = accepted
           @default = default
           @mapping = mapping
+          @body_parsers = {}
+
+          register_default_body_parsers
         end
 
         # @since 2.0.0
@@ -72,6 +83,7 @@ module Hanami
           @accepted = original.accepted.dup
           @default = original.default
           @mapping = original.mapping.dup
+          @body_parsers = original.body_parsers.dup
         end
 
         # !@attribute [w] accepted
@@ -128,13 +140,19 @@ module Hanami
         #
         # @since 2.3.0
         # @api public
-        def register(format, media_type, accept_types: [media_type], content_types: [media_type])
+        def register(format, media_type, accept_types: [media_type], content_types: [media_type], parser: nil)
           mapping[format] = Mime::Format.new(
             name: format.to_sym,
             media_type: media_type,
             accept_types: accept_types,
             content_types: content_types
           )
+
+          if parser
+            Array(content_types).each do |ct|
+              @body_parsers[ct.downcase] = parser
+            end
+          end
 
           self
         end
@@ -285,6 +303,31 @@ module Hanami
         # @since 2.0.0
         # @api public
         alias_method :mime_types_for, :accept_types_for
+
+        # Finds the parser for a content type.
+        #
+        # @param content_type [String] the content type
+        #
+        # @return [#call, nil] the parser callable, if registered
+        #
+        # @api private
+        def body_parser_for(content_type)
+          @body_parsers[content_type&.downcase]
+        end
+
+        private
+
+        def register_default_body_parsers
+          require_relative "../body_parsers/json"
+          require_relative "../body_parsers/multipart_form"
+
+          # Multipart forms (ordinary urlencoded forms are handled by Rack automatically)
+          @body_parsers["multipart/form-data"] = BodyParsers::MultipartForm
+
+          # JSON
+          @body_parsers["application/json"] = BodyParsers::JSON
+          @body_parsers["application/vnd.api+json"] = BodyParsers::JSON
+        end
       end
     end
   end

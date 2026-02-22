@@ -229,8 +229,32 @@ module Hanami
     # @api private
     RACK_INPUT = ::Rack::RACK_INPUT
 
-    # The key that returns router params from the Rack env
-    # This is a builtin integration for Hanami::Router
+    # The key that returns a request body parsed by Hanami Action.
+    #
+    # This is the canonical key for body parsing.
+    #
+    # @since x.x.x
+    # @api private
+    ACTION_PARSED_BODY = "hanami.action.parsed_body"
+
+    # The key that returns params from a parsed body by Hanami Action.
+    #
+    # This is the canonical key for parsed body params.
+    #
+    # @since x.x.x
+    # @api private
+    ACTION_BODY_PARAMS = "hanami.action.body_params"
+
+    # The key that returns a request body parsed by Hanami Router.
+    #
+    # This is maintained for backward compatibility with Hanami Router.
+    #
+    # @api private
+    ROUTER_PARSED_BODY = "router.parsed_body"
+
+    # The key that returns router params from the Rack env.
+    #
+    # This is maintained for backward compatibility with Hanami Router.
     #
     # @since 2.0.0
     # @api private
