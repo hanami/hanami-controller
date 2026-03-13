@@ -310,6 +310,8 @@ module Hanami
       freeze
     end
 
+    # rubocop:disable Metrics/AbcSize
+
     # Implements the Rack/Hanami::Action protocol
     #
     # @since 0.1.0
@@ -319,8 +321,21 @@ module Hanami
       response = nil
 
       halted = catch :halt do
-        params = Params.new(env: env, contract: contract)
-        request  = build_request(
+        # Catch body parsing errors early, and wait to raise them until _after_ we've built our
+        # request and response, to give exception handlers real objects to work with.
+        body_parse_error = nil
+        begin
+          BodyParser.parse env, config
+        rescue BodyParsingError => exception
+          body_parse_error = exception
+        end
+
+        params = Params.new(
+          # Create empty params if body parsing failed, to avoid validating corrupted input.
+          env: body_parse_error ? {} : env,
+          contract: contract
+        )
+        request = build_request(
           env: env,
           params: params,
           session_enabled: session_enabled?,
@@ -334,6 +349,8 @@ module Hanami
           headers: config.default_headers,
           session_enabled: session_enabled?
         )
+
+        raise body_parse_error if body_parse_error
 
         enforce_accepted_media_types(request)
 
@@ -350,6 +367,8 @@ module Hanami
 
       finish(request, response, halted)
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     protected
 

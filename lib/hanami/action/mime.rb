@@ -195,7 +195,7 @@ module Hanami
         def format_from_media_type(media_type, config)
           return if media_type.nil?
 
-          mt = media_type.split(";").first
+          mt = extract_media_type(media_type)
           config.formats.format_for(mt) || MEDIA_TYPES_TO_FORMATS[mt]&.name
         end
 
@@ -250,6 +250,27 @@ module Hanami
           "#{content_type}; charset=#{charset}"
         end
 
+        # Extracts the media type from a Content-Type header value, removing parameters
+        # like charset, boundary, etc.
+        #
+        # @param content_type [String, nil] the Content-Type header value
+        # @return [String, nil] the media type without parameters, downcased
+        #
+        # @example
+        #   extract_media_type("application/json; charset=utf-8")
+        #   # => "application/json"
+        #
+        #   extract_media_type("multipart/form-data; boundary=----WebKitFormBoundary")
+        #   # => "multipart/form-data"
+        #
+        # @api private
+        def extract_media_type(content_type)
+          return nil if content_type.nil? || content_type.empty?
+
+          # Strip charset, boundary, and other parameters (separated by semicolon)
+          content_type.split(";", 2).first.strip.downcase
+        end
+
         # Patched version of <tt>Rack::Utils.best_q_match</tt>.
         #
         # @api private
@@ -266,6 +287,19 @@ module Hanami
 
             RequestMimeWeight.new(req_mime, quality, index, match)
           }.compact.max&.format
+        end
+
+        # Checks if a content type is acceptable for the configured formats.
+        #
+        # @param content_type [String] the media type to check
+        # @param config [Hanami::Action::Config] action configuration
+        # @return [Boolean] true if acceptable
+        #
+        # @api private
+        def accepted_content_type?(content_type, config)
+          accepted_content_types(config).any? { |accepted_content_type|
+            ::Rack::Mime.match?(content_type, accepted_content_type)
+          }
         end
 
         private
@@ -291,13 +325,6 @@ module Hanami
           FORMATS
             .fetch(format) { raise Hanami::Action::UnknownFormatError.new(format) }
             .accept_types
-        end
-
-        # @api private
-        def accepted_content_type?(content_type, config)
-          accepted_content_types(config).any? { |accepted_content_type|
-            ::Rack::Mime.match?(content_type, accepted_content_type)
-          }
         end
 
         # @api private

@@ -28,6 +28,37 @@ RSpec.describe Hanami::Action::Config::Formats do
           )
         )
     end
+
+    it "registers parser for content types" do
+      parser = ->(body, env) { {"parsed" => true} }
+
+      formats.register(:custom, "application/custom", parser: parser)
+
+      expect(formats.body_parser_for("application/custom")).to eq(parser)
+    end
+
+    it "registers parser for multiple content types" do
+      parser = ->(body, env) { {"parsed" => true} }
+
+      formats.register(
+        :custom,
+        "application/custom",
+        content_types: ["application/custom", "application/x-custom"],
+        parser: parser
+      )
+
+      expect(formats.body_parser_for("application/custom")).to eq(parser)
+      expect(formats.body_parser_for("application/x-custom")).to eq(parser)
+    end
+
+    it "normalizes content type case when registering parser" do
+      parser = ->(body, env) { {"parsed" => true} }
+
+      formats.register(:custom, "Application/Custom", parser: parser)
+
+      expect(formats.body_parser_for("application/custom")).to eq(parser)
+      expect(formats.body_parser_for("APPLICATION/CUSTOM")).to eq(parser)
+    end
   end
 
   describe "#accepted" do
@@ -45,6 +76,50 @@ RSpec.describe Hanami::Action::Config::Formats do
       expect { formats.accepted = [:json, :html] }
         .to change { formats.accepted }
         .to [:json, :html]
+    end
+  end
+
+  describe "#body_parsers" do
+    it "is exposed as an attribute" do
+      expect(formats.body_parsers).to be_a(Hash)
+    end
+
+    it "allows direct parser registration" do
+      parser = ->(body, env) { {"direct" => true} }
+      formats.body_parsers["application/direct"] = parser
+
+      expect(formats.body_parser_for("application/direct")).to eq(parser)
+    end
+
+    it "includes default parsers for JSON" do
+      expect(formats.body_parser_for("application/json")).to eq(Hanami::Action::BodyParsers::JSON)
+      expect(formats.body_parser_for("application/vnd.api+json")).to eq(Hanami::Action::BodyParsers::JSON)
+    end
+
+    it "includes default parser for multipart forms" do
+      expect(formats.body_parser_for("multipart/form-data")).to eq(Hanami::Action::BodyParsers::MultipartForm)
+    end
+  end
+
+  describe "#body_parser_for" do
+    it "returns parser for registered content type" do
+      parser = formats.body_parser_for("application/json")
+
+      expect(parser).to eq(Hanami::Action::BodyParsers::JSON)
+    end
+
+    it "returns nil for unregistered content type" do
+      expect(formats.body_parser_for("application/unknown")).to be_nil
+    end
+
+    it "is case-insensitive" do
+      parser = formats.body_parser_for("APPLICATION/JSON")
+
+      expect(parser).to eq(Hanami::Action::BodyParsers::JSON)
+    end
+
+    it "handles nil content type" do
+      expect(formats.body_parser_for(nil)).to be_nil
     end
   end
 
