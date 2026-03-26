@@ -42,10 +42,55 @@ RSpec.describe Hanami::Action::BodyParser do
       expect(env).not_to have_key("router.parsed_body")
     end
 
-    it "skips if no formats configured" do
+    it "skips non-multipart content types when no formats are configured" do
       env = {
         "CONTENT_TYPE" => "application/json",
         Rack::RACK_INPUT => StringIO.new('{"key":"value"}')
+      }
+
+      described_class.parse(env, config)
+
+      expect(env).not_to have_key("router.parsed_body")
+    end
+
+    it "parses multipart/form-data automatically when no formats are configured" do
+      boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
+      body = [
+        "------WebKitFormBoundary7MA4YWxkTrZu0gW",
+        'Content-Disposition: form-data; name="title"',
+        "",
+        "My Title",
+        "------WebKitFormBoundary7MA4YWxkTrZu0gW--"
+      ].join("\r\n")
+
+      env = {
+        "CONTENT_TYPE" => "multipart/form-data; boundary=#{boundary}",
+        "CONTENT_LENGTH" => body.bytesize.to_s,
+        Rack::RACK_INPUT => StringIO.new(body)
+      }
+
+      described_class.parse(env, config)
+
+      expect(env["router.parsed_body"]).to eq("title" => "My Title")
+      expect(env["router.params"]).to eq(title: "My Title")
+    end
+
+    it "does not parse multipart/form-data automatically once any format is explicitly configured" do
+      config.formats.accept :json
+
+      boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
+      body = [
+        "------WebKitFormBoundary7MA4YWxkTrZu0gW",
+        'Content-Disposition: form-data; name="title"',
+        "",
+        "My Title",
+        "------WebKitFormBoundary7MA4YWxkTrZu0gW--"
+      ].join("\r\n")
+
+      env = {
+        "CONTENT_TYPE" => "multipart/form-data; boundary=#{boundary}",
+        "CONTENT_LENGTH" => body.bytesize.to_s,
+        Rack::RACK_INPUT => StringIO.new(body)
       }
 
       described_class.parse(env, config)
