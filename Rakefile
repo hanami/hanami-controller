@@ -30,7 +30,9 @@ namespace :spec do
     # TODO: see if these can be run as part of the main suite
     Dir["spec/integration/**/*_spec.rb"].each do |test_file|
       puts "\n\nRunning: #{test_file}"
-      system("bundle exec rspec #{test_file}") || abort("Integration test failed: #{test_file}")
+      Bundler.with_unbundled_env do
+        system("bundle exec rspec #{test_file}") || abort("Integration test failed: #{test_file}")
+      end
     end
   end
 end
