@@ -21,10 +21,7 @@ module Hanami
         #
         # @return [void]
         def parse(env, config)
-          # Body parsing requires explicit format config. Skip parsing if nothing is configured.
-          return if config.formats.empty?
-
-          # If the router has alresady parsed the body, assign it to our own parsed body keys.
+          # If the router has already parsed the body, assign it to our own parsed body keys.
           if env.key?(ROUTER_PARSED_BODY)
             env[ACTION_PARSED_BODY] = env[ROUTER_PARSED_BODY]
             env[ACTION_BODY_PARAMS] = env[ROUTER_PARAMS] if env.key?(ROUTER_PARAMS)
@@ -39,7 +36,14 @@ module Hanami
           media_type = Mime.extract_media_type(env["CONTENT_TYPE"])
           return unless media_type
 
-          return unless Mime.accepted_content_type?(media_type, config)
+          if config.formats.empty?
+            # When no format is explicity configured, parse multipart/form-data bodies as a sensible
+            # default. These kinds of form submissions are a standard part of standard web behavior,
+            # and users expect them to work out of the box.
+            return unless media_type == "multipart/form-data"
+          else
+            return unless Mime.accepted_content_type?(media_type, config)
+          end
 
           parser = config.formats.body_parser_for(media_type)
           return unless parser
