@@ -267,23 +267,6 @@ module Hanami
       config.after_callbacks.prepend(...)
     end
 
-    # @see Config#format
-    #
-    # @since 2.0.0
-    # @api public
-    def self.format(...)
-      msg = <<~TEXT
-        Hanami::Action `format` is deprecated and will be removed in Hanami 2.4.
-
-        Please use `config.formats.accept` instead.
-
-        See https://guides.hanamirb.org/v2.3/actions/formats-and-mime-types/ for details.
-      TEXT
-      warn(msg, category: :deprecated)
-
-      config.format(...)
-    end
-
     # @see Config#handle_exception
     #
     # @since 2.0.0

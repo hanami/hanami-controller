@@ -35,23 +35,6 @@ module Hanami
         # @api public
         attr_reader :body_parsers
 
-        # @see #accepted
-        #
-        # @since 2.0.0
-        # @api public
-        def values
-          msg = <<~TEXT
-            Hanami::Action `config.formats.values` is deprecated and will be removed in Hanami 2.4.
-
-            Please use `config.formats.accepted` instead.
-
-            See https://guides.hanamirb.org/v2.3/actions/formats-and-mime-types/ for details.
-          TEXT
-          warn(msg, category: :deprecated)
-
-          accepted
-        end
-
         # Returns the default format name.
         #
         # When a request is received that cannot
@@ -92,11 +75,6 @@ module Hanami
         def accepted=(formats)
           @accepted = formats.map { |f| Hanami::Utils::Kernel.Symbol(f) }
         end
-
-        # !@attribute [w] values
-        #   @since 2.0.0
-        #   @api public
-        alias_method :values=, :accepted=
 
         # @since 2.3.0
         def accept(*formats)
@@ -153,59 +131,6 @@ module Hanami
               @body_parsers[ct.downcase] = parser
             end
           end
-
-          self
-        end
-
-        # @overload add(format)
-        #   Adds and enables a format.
-        #
-        #   @param format [Symbol]
-        #
-        #   @example
-        #     config.formats.add(:json)
-        #
-        # @overload add(format, mime_type)
-        #   Adds a custom format to MIME type mapping and enables the format.
-        #   Adds a format mapping to a single MIME type.
-        #
-        #   @param format [Symbol]
-        #   @param mime_type [String]
-        #
-        #   @example
-        #     config.formats.add(:json, "application/json")
-        #
-        # @overload add(format, mime_types)
-        #   Adds a format mapping to multiple MIME types.
-        #
-        #   @param format [Symbol]
-        #   @param mime_types [Array<String>]
-        #
-        #   @example
-        #     config.formats.add(:json, ["application/json+scim"])
-        #
-        # @return [self]
-        #
-        # @since 2.0.0
-        # @api public
-        def add(format, mime_types)
-          msg = <<~TEXT
-            Hanami::Action `config.formats.add` is deprecated and will be removed in Hanami 2.4.
-
-            Please use `config.formats.register` instead.
-
-            See https://guides.hanamirb.org/v2.3/actions/formats-and-mime-types/ for details.
-          TEXT
-          warn(msg, category: :deprecated)
-
-          mime_type = Array(mime_types).first
-
-          # The old behaviour would have subsequent mime types _replacing_ previous ones
-          mapping.reject! { |_, format| format.media_type == mime_type }
-
-          register(format, Array(mime_types).first, accept_types: mime_types)
-
-          accept(format) unless @accepted.include?(format)
 
           self
         end

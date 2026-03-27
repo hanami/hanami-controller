@@ -173,13 +173,13 @@ RSpec.describe Hanami::Action::Config::Formats do
 
   describe "#clear" do
     it "clears any previously assigned mappings and values" do
-      formats.add(:custom, "application/custom")
-      formats.values = [:custom]
+      formats.register(:custom, "application/custom")
+      formats.accepted = [:custom]
 
       formats.clear
 
       expect(formats.mapping.keys).not_to include "application/custom"
-      expect(formats.values).to eq []
+      expect(formats.accepted).to eq []
     end
   end
 
@@ -214,41 +214,6 @@ RSpec.describe Hanami::Action::Config::Formats do
 
     it "returns nil if no matching format is found" do
       expect(formats.mime_type_for(:missing)).to be nil
-    end
-  end
-
-  describe "deprecated behavior" do
-    describe "#add" do
-      it "adds a new mapping" do
-        expect { formats.add(:custom, "application/custom") }
-          .to change { formats.mapping }
-          .to include(custom: have_attributes(media_type: "application/custom"))
-      end
-
-      it "can add a mapping to multiple content types" do
-        expect { formats.add(:json, ["application/json", "application/json+scim"]) }
-          .to change { formats.mapping }
-          .to include(json: have_attributes(media_type: "application/json", accept_types: ["application/json", "application/json+scim"]))
-      end
-
-      it "replaces a previously set mapping for a given MIME type" do
-        formats.register(:html, "text/html")
-        formats.add :custom, "text/html"
-
-        expect(formats.mapping).to match(custom: have_attributes(media_type: "text/html"))
-      end
-    end
-
-    describe "#values" do
-      it "returns an empty array by default" do
-        expect(formats.values).to eq []
-      end
-
-      it "can have a list of format names assigned" do
-        expect { formats.values = [:json, :html] }
-          .to change { formats.values }
-          .to [:json, :html]
-      end
     end
   end
 end

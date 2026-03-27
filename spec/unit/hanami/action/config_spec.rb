@@ -33,18 +33,6 @@ RSpec.describe Hanami::Action::Config do
     end
   end
 
-  describe "#format" do
-    it "sets formats" do
-      config.formats.accept :json, :html
-      expect(config.formats.values).to eq [:json, :html]
-    end
-
-    it "returns previously set formats" do
-      config.formats.accept :json, :html
-      expect(config.format).to eq [:json, :html]
-    end
-  end
-
   describe "#default_charset" do
     it "is nil by default" do
       expect(config.default_charset).to be nil
